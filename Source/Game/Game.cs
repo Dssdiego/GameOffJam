@@ -23,7 +23,7 @@ public class Game : App
     private PauseMenu pauseMenu;
     
     public static bool ShowHitboxes = true;
-    public static float Scale = 4f;
+    public static float Scale = 1f;
     
     private static AppConfig appConfig = new()
     {
@@ -59,8 +59,8 @@ public class Game : App
         // GameState.Create<LandingPad>(new Vector2(400, 250));
         // World.Spawn<BlackHole>(new Vector2(400, 250));
         // var player = World.Spawn<Player>(new Vector2(100, 100));
-        
-        // var player = World.Spawn<Player>(new Vector2(200, 200));
+
+        var player = World.Spawn<Player>(new Vector2(Window.Width/2, Window.Height/2));
 
         HUD.Init(World, Window);
     }
