@@ -2,19 +2,63 @@ namespace GameOffJam;
 
 public class Player : Actor
 {
-    private float size = 25f;
+    public Vector2 Velocity = Vector2.Zero;
     
+    private float size = 25f;
+    private float rotationAngle;
+    private float rotationSpeed = 3.5f;
+    private float boostSpeed = 125f;
+    
+    private readonly Sprite sprite;
+
+    public Player()
+    {
+        sprite = AssetUtils.GetSprite("Player")!;
+    }
+
     public override void Update()
     {
         base.Update();
+
+        // rotate to the left
+        if (Controls.Move.IntValue.X < 0f)
+        {
+            rotationAngle -= rotationSpeed * Time.Delta;
+        }
+
+        // rotate to the right
+        if (Controls.Move.IntValue.X > 0f)
+        {
+            rotationAngle += rotationSpeed * Time.Delta;
+        }
+
+        // boost
+        if (Controls.Boost.IntValue > 0)
+        {
+            // FIXME: Perhaps rotation is in radians and I'm trying to use degrees here. It works but it's wrong!
+            var moveX = (float) Math.Cos(rotationAngle + 30) * boostSpeed * Time.Delta;
+            var moveY = (float) Math.Sin(rotationAngle + 30) * boostSpeed * Time.Delta;
+            
+            // Log.Info("Rotation Angle: " + rotationAngle);
+
+            Velocity += new Vector2(moveX, moveY);
+        }
+
+        Position += Velocity * Time.Delta;
     }
 
     public override void Render(Batcher batcher)
     {
         base.Render(batcher);
         
-        batcher.Triangle(new Triangle(new Vector2(0, 0), new Vector2(size, -2*size), new Vector2(size*2, 0)), Color.Red);
-        // batcher.Rect(new Rect(16, 16), Color.White);
+        var anim = sprite.GetAnimation("Idle");
+        var frame = sprite.GetFrameAt(anim, 0, true);
+        
+        batcher.Image(frame.Subtexture, Position, new Vector2(16,16), Vector2.One, rotationAngle, Color.White);
+        
+        // hitbox.Render(batcher);
+        
+        // batcher.Triangle(new Triangle(new Vector2(0, 0), new Vector2(size, -2*size), new Vector2(size*2, 0)), Color.Red);
     }
 
     public override void OnAddedToWorld()

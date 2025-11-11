@@ -60,7 +60,7 @@ public class Game : App
         // World.Spawn<BlackHole>(new Vector2(400, 250));
         // var player = World.Spawn<Player>(new Vector2(100, 100));
 
-        var player = World.Spawn<Player>(new Vector2(Window.Width/2, Window.Height/2));
+        var player = World.Spawn<Player>(new Vector2(300, 150));
 
         HUD.Init(World, Window);
     }

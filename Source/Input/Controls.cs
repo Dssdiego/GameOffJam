@@ -16,6 +16,11 @@ public class Controls(Input input)
             .Add(Keys.R)
             .Add(Buttons.North)
     );
+
+    public readonly VirtualAxis Boost = new VirtualAxis(input, "Boost", 
+        new AxisBindingSet()
+            .Add(Axes.RightTrigger)
+    );
     #endregion
     
     #region UI
