@@ -3,6 +3,7 @@ namespace GameOffJam;
 public class Player : Actor
 {
     public Vector2 Velocity = Vector2.Zero;
+    public Vector2 Direction = Vector2.Zero;
     
     private float size = 25f;
     private float rotationAngle;
@@ -32,18 +33,26 @@ public class Player : Actor
             rotationAngle += rotationSpeed * Time.Delta;
         }
 
+        // "forward" direction calculation
+        // FIXME: Perhaps rotation is in radians, and I'm trying to use degrees here. It works but it's wrong!
+        // Log.Info("Rotation Angle: " + rotationAngle);
+        Direction.X = (float)Math.Cos(rotationAngle + 30);
+        Direction.Y = (float)Math.Sin(rotationAngle + 30);
+        
         // boost
         if (Controls.Boost.IntValue > 0)
         {
-            // FIXME: Perhaps rotation is in radians and I'm trying to use degrees here. It works but it's wrong!
-            var moveX = (float) Math.Cos(rotationAngle + 30) * boostSpeed * Time.Delta;
-            var moveY = (float) Math.Sin(rotationAngle + 30) * boostSpeed * Time.Delta;
-            
-            // Log.Info("Rotation Angle: " + rotationAngle);
-
-            Velocity += new Vector2(moveX, moveY);
+            Velocity += Direction * boostSpeed * Time.Delta;
+        }
+        
+        // shoot
+        if (Controls.Shoot.Pressed)
+        {
+            var bullet = World.Spawn<Bullet>(Position + Direction * 10);
+            bullet.Setup(Direction);
         }
 
+        // move the player with velocity (w/ inertia)
         Position += Velocity * Time.Delta;
     }
 

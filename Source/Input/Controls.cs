@@ -11,10 +11,10 @@ public class Controls(Input input)
             .Add(Axes.LeftX, 0.25f, Axes.LeftY, 0.50f, 0.25f)
     );
     
-    public readonly VirtualAction RestartPlayer = new(input, "RestartPlayer", 
+    public readonly VirtualAction Shoot = new(input, "Shoot", 
         new ActionBindingSet()
-            .Add(Keys.R)
-            .Add(Buttons.North)
+            .Add(Keys.Space)
+            .Add(Buttons.South)
     );
 
     public readonly VirtualAxis Boost = new VirtualAxis(input, "Boost", 

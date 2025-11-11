@@ -97,7 +97,7 @@ public class Game : App
 
     protected override void Render()
     {
-        Window.Clear(0x150e22);
+        Window.Clear(Color.Black);
 
         World.Render(batcher);
        
