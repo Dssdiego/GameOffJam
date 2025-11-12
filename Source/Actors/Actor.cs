@@ -14,6 +14,7 @@ public class Actor
     public Hitbox? Hitbox; // REVIEW: Do we have actors that don't need hitboxes? Or all actors should have hitboxes ALWAYS?
     public Masks Mask;
     public int Depth = 0; // rendering depth, higher is rendered later (on top)
+    public bool WarpInScreen = false;
     
     private World? world = null;
     
@@ -39,6 +40,31 @@ public class Actor
     public virtual void Update()
     {
         Timer += Time.Delta;
+
+        if (WarpInScreen)
+        {
+            // warp X
+            if (Position.X < 0)
+            {
+                Position.X = Game.Window.WidthInPixels/2;
+            }
+
+            if (Position.X > Game.Window.WidthInPixels / 2)
+            {
+                Position.X = 0;
+            }
+        
+            // warp Y
+            if (Position.Y < 0)
+            {
+                Position.Y = Game.Window.HeightInPixels / 2;
+            }
+
+            if (Position.Y > Game.Window.HeightInPixels / 2)
+            {
+                Position.Y = 0;
+            }
+        }
     }
 
     public virtual void Render(Batcher batcher)

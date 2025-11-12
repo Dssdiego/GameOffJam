@@ -11,10 +11,12 @@ public class Player : Actor
     private float boostSpeed = 125f;
     
     private readonly Sprite sprite;
-
+    
     public Player()
     {
         sprite = AssetUtils.GetSprite("Player")!;
+
+        WarpInScreen = true;
     }
 
     public override void Update()

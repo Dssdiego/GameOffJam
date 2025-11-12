@@ -5,6 +5,11 @@ public class Bullet : Actor
     public float Speed = 50f;
     public Vector2 Velocity = Vector2.Zero;
 
+    public Bullet()
+    {
+        WarpInScreen = true;
+    }
+
     public void Setup(Vector2 velocity)
     {
         Velocity = velocity;
