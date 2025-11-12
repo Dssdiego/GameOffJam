@@ -62,6 +62,8 @@ public class Game : App
 
         var player = World.Spawn<Player>(new Vector2(300, 150));
 
+        var mine = World.Spawn<Mine>(new Vector2(450, 50));
+
         HUD.Init(World, Window);
     }
 
