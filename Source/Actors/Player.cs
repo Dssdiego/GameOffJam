@@ -10,11 +10,9 @@ public class Player : Actor
     private float rotationSpeed = 3.5f;
     private float boostSpeed = 125f;
     
-    private readonly Sprite sprite;
-    
     public Player()
     {
-        sprite = AssetUtils.GetSprite("Player")!;
+        Sprite = AssetUtils.GetSprite("Player")!;
 
         WarpInScreen = true;
     }
@@ -62,23 +60,13 @@ public class Player : Actor
     {
         base.Render(batcher);
         
-        var anim = sprite.GetAnimation("Idle");
-        var frame = sprite.GetFrameAt(anim, 0, true);
+        var anim = Sprite.GetAnimation("Idle");
+        var frame = Sprite.GetFrameAt(anim, 0, true);
         
         batcher.Image(frame.Subtexture, Position, new Vector2(16,16), Vector2.One, rotationAngle, Color.White);
         
         // hitbox.Render(batcher);
         
         // batcher.Triangle(new Triangle(new Vector2(0, 0), new Vector2(size, -2*size), new Vector2(size*2, 0)), Color.Red);
-    }
-
-    public override void OnAddedToWorld()
-    {
-        base.OnAddedToWorld();
-    }
-
-    public override void OnDestroyed()
-    {
-        base.OnDestroyed();
     }
 }

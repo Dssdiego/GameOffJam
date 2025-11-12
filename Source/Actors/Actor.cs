@@ -16,6 +16,8 @@ public class Actor
     public int Depth = 0; // rendering depth, higher is rendered later (on top)
     public bool WarpInScreen = false;
     
+    public Sprite Sprite;
+    
     private World? world = null;
     
     /// <summary>
