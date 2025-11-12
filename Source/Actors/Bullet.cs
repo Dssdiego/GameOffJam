@@ -3,6 +3,7 @@ namespace GameOffJam;
 public class Bullet : Actor
 {
     public float Speed = 50f;
+    public float TimeToDestroy = 5f;
     public Vector2 Velocity = Vector2.Zero;
 
     public Bullet()
@@ -20,6 +21,11 @@ public class Bullet : Actor
         base.Update();
         
         Position += Velocity * Speed * Time.Delta;
+        
+        if (Timer >= TimeToDestroy)
+        {
+            World.DestroyActor(this);
+        }
     }
 
     public override void Render(Batcher batcher)
@@ -27,15 +33,5 @@ public class Bullet : Actor
         base.Render(batcher);
         
         batcher.Circle(new Circle(Position, 6), 12, Color.LightGray);
-    }
-
-    public override void OnAddedToWorld()
-    {
-        base.OnAddedToWorld();
-    }
-
-    public override void OnDestroyed()
-    {
-        base.OnDestroyed();
     }
 }
