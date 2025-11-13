@@ -30,6 +30,12 @@ public class Controls(Input input)
             .Add(Buttons.Start)
     );
     
+    public readonly VirtualAction PowerUpChooser = new(input, "PowerUpChooser", 
+        new ActionBindingSet()
+            .Add(Keys.Backspace)
+            .Add(Buttons.North)
+    );
+    
     public readonly VirtualAction MenuNavUp = new(input, "MenuNavUp", 
         new ActionBindingSet()
             .Add(Keys.W)
@@ -46,6 +52,24 @@ public class Controls(Input input)
             .Add(Buttons.Down)
             .AddLeftJoystickDown(0.5f)
         // TODO: Add support for "axis down"
+    );
+    
+    public readonly VirtualAction MenuNavLeft = new(input, "MenuNavLeft", 
+        new ActionBindingSet()
+            .Add(Keys.A)
+            .Add(Keys.Left)
+            .Add(Buttons.West)
+            .AddLeftJoystickLeft(0.5f)
+        // TODO: Add support for "axis left"
+    );
+    
+    public readonly VirtualAction MenuNavRight = new(input, "MenuNavRight", 
+        new ActionBindingSet()
+            .Add(Keys.D)
+            .Add(Keys.Right)
+            .Add(Buttons.East)
+            .AddLeftJoystickRight(0.5f)
+        // TODO: Add support for "axis left"
     );
     
     public readonly VirtualAction MenuConfirm = new(input, "MenuConfirm", 

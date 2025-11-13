@@ -4,14 +4,19 @@ public class Game : App
 {
     // public static readonly Version Version = typeof(Game).Assembly.GetName().Version!;
     // public static readonly string VersionString = $"v.{Version.Major}.{Version.Minor}.{Version.Build}";
+
+    public enum GameState
+    {
+        Running,
+        Paused,
+        ChoosePowerUp
+    }
     
     private static Game? instance;
     public static Game Instance => instance ?? throw new Exception("Game isn't running");
 
     public string[] Args;
     
-    public static bool Paused = false;
-
     public World World;
     
     public readonly Controls Controls;
@@ -20,7 +25,10 @@ public class Game : App
 
     private readonly HUD gameHUD = new();
     
+    public static GameState State = GameState.Running;
+    
     private PauseMenu pauseMenu;
+    private PowerUpChooser powerUpChooser;
     
     public static bool ShowHitboxes = true;
     public static float Scale = 1f;
@@ -44,6 +52,11 @@ public class Game : App
         
         Controls = new Controls(Input);
     }
+
+    public static void ChangeState(GameState newState)
+    {
+        State = newState;
+    }
     
     protected override void Startup()
     {
@@ -55,6 +68,7 @@ public class Game : App
         World.Load("Test");
 
         pauseMenu = new PauseMenu(World);
+        powerUpChooser = new PowerUpChooser(Controls);
         
         // GameState.Create<LandingPad>(new Vector2(400, 250));
         // World.Spawn<BlackHole>(new Vector2(400, 250));
@@ -69,18 +83,28 @@ public class Game : App
 
     protected override void Update()
     {
-        if (Controls.PauseGame.Pressed)
+        if (Controls.PauseGame.Pressed && State != GameState.ChoosePowerUp)
         {
-            Paused = !Paused;
+            ChangeState(State == GameState.Running ? GameState.Paused : GameState.Running);
             pauseMenu.ResetSelection();
         }
 
-        if (Paused)
+        if (Controls.PowerUpChooser.Pressed && State != GameState.Paused)
+        {
+            ChangeState(State == GameState.Running ? GameState.ChoosePowerUp : GameState.Running);
+        }
+
+        if (State == GameState.Paused)
         {
             pauseMenu.Update();
         }
+
+        if (State == GameState.ChoosePowerUp)
+        {
+            powerUpChooser.Update();
+        }
         
-        if (!Paused)
+        if (State == GameState.Running)
         {
             Steam.Update();
             
@@ -91,12 +115,8 @@ public class Game : App
             
             // actionSlotPopup.Update();
         }
-        else
-        {
-            pauseMenu.Update();
-        }
     }
-
+    
     protected override void Render()
     {
         Window.Clear(Color.Black);
@@ -105,9 +125,14 @@ public class Game : App
        
         gameHUD.Render(batcher);
 
-        if (Paused)
+        if (State == GameState.Paused)
         {
             pauseMenu.Render(batcher);
+        }
+
+        if (State == GameState.ChoosePowerUp)
+        {
+            powerUpChooser.Render(batcher);
         }
         
         batcher.Render(Window);

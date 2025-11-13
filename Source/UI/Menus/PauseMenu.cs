@@ -12,14 +12,14 @@ public class PauseMenu : Menu
             {
                 World.Reload();
 
-                Game.Paused = false;
+                Game.ChangeState(Game.GameState.Running);
             }),
 
             new MenuItem("[Debug] Toggle Hitboxes", () =>
             {
                 Game.ShowHitboxes = !Game.ShowHitboxes;
 
-                Game.Paused = false;
+                Game.ChangeState(Game.GameState.Running);
             }),
 
             new MenuItem("Quit Game", () => { Environment.Exit(0); })
@@ -36,6 +36,7 @@ public class PauseMenu : Menu
 
     public override void Render(Batcher batcher)
     {
+        // draw (semi-transparent) background
         batcher.Rect(new Rect(Vector2.Zero, Game.Instance.Window.Size), Color.Black * 0.5f);
         
         batcher.Text(Assets.SpriteFonts["Renogare"], "Pause Menu", new Vector2(100, 100), Color.White);
