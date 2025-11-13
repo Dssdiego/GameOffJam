@@ -4,32 +4,39 @@ public class PowerUpChooser : UI
 {
     public Controls Controls;
     
-    private List<String> powerUps = new();
+    private List<Card> powerUpCards = [];
+    
+    private Vector2 basePosition = new(200, 200);
 
-    private Sprite sprite;
+    private int offsetX = 200;
 
     public PowerUpChooser(Controls controls)
     {
         Controls = controls;
         
-        sprite = AssetUtils.GetSprite("Card")!;
+        powerUpCards.Add(new Card(true));
+        powerUpCards.Add(new Card());
+        powerUpCards.Add(new Card());
     }
 
     public override void Update()
     {
-        if (Controls.MenuNavLeft.Pressed)
+        // navigate left
+        if (Controls.MenuNavLeft.ConsumePress())
         {
             
         }
 
-        if (Controls.MenuNavRight.Pressed)
+        // navigate right
+        if (Controls.MenuNavRight.ConsumePress())
         {
             
         }
 
-        if (Controls.MenuConfirm.Pressed)
+        // confirm/press
+        if (Controls.MenuConfirm.ConsumePress())
         {
-            
+            // TODO: Apply the buff in the game
         }
     }
 
@@ -37,15 +44,22 @@ public class PowerUpChooser : UI
     {
         // draw (semi-transparent) background
         batcher.Rect(new Rect(Vector2.Zero, Game.Instance.Window.Size), Color.Black * 0.5f);
+
+        // draw title
+        batcher.Text(Assets.SpriteFonts["Renogare"], "Level 1", new Vector2(Game.Instance.Window.Width/2 - 50, 50), Color.White);
         
-        // foreach (var powerUp in powerUps)
-        // {
-        //     
-        // }
+        // draw cards
+        {
+            var offset = 0;
         
-        var anim = sprite.GetAnimation("Normal");
-        var frame = sprite.GetFrameAt(anim, 0, true);
-        
-        batcher.Image(frame.Subtexture, new Vector2(200, 200), new Vector2(16,16), Vector2.One * 4, 0, Color.White);
+            foreach (var powerUp in powerUpCards)
+            {
+                powerUp.Position = basePosition with { X = basePosition.X + offset };
+                powerUp.Render(batcher);
+
+                offset += offsetX;
+            }
+            
+        }
     }
 }
