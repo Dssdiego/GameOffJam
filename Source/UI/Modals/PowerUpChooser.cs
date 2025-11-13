@@ -14,8 +14,18 @@ public class PowerUpChooser : UI
     public PowerUpChooser(Controls controls)
     {
         Controls = controls;
+
+        var cardWithAction = new Card();
+        cardWithAction.Action = () =>
+        {
+            var player = Game.Instance.World.GetFirstActorWithMask(Actor.Masks.Player) as Player;
+            if (player != null)
+            {
+                player.BoostSpeed = 3500f;
+            }
+        };
         
-        powerUpCards.Add(new Card());
+        powerUpCards.Add(cardWithAction);
         powerUpCards.Add(new Card());
         powerUpCards.Add(new Card());
         
@@ -67,7 +77,8 @@ public class PowerUpChooser : UI
         // confirm/press
         if (Controls.MenuConfirm.ConsumePress())
         {
-            // TODO: Apply the buff in the game
+            // execute the action of the "power up" card
+            powerUpCards[selectedCardIdx].Action();
             
             // make the game "run" again
             Game.ChangeState(Game.GameState.Running);

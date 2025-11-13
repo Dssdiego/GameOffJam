@@ -8,6 +8,7 @@ public class Card : UI
         Selected
     }
 
+    public Action Action = () => { };
     public Vector2 Position;
     public float Scale = 4f;
 
@@ -17,13 +18,6 @@ public class Card : UI
     public Card()
     {
         sprite = AssetUtils.GetSprite("Card")!;
-    }
-
-    public Card(bool selected)
-    {
-        sprite = AssetUtils.GetSprite("Card")!;
-        
-        SetState(selected ? State.Selected : State.Normal);
     }
 
     public void SetState(State newState)

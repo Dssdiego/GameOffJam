@@ -112,8 +112,6 @@ public class Game : App
             World.Update();
 
             gameHUD.Update();
-            
-            // actionSlotPopup.Update();
         }
     }
     

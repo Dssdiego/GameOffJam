@@ -5,14 +5,16 @@ public class Player : Actor
     public Vector2 Velocity = Vector2.Zero;
     public Vector2 Direction = Vector2.Zero;
     
+    public float BoostSpeed = 125f;
+    
     private float size = 25f;
     private float rotationAngle;
     private float rotationSpeed = 3.5f;
-    private float boostSpeed = 125f;
     
     public Player()
     {
         Sprite = AssetUtils.GetSprite("Player")!;
+        Mask = Masks.Player;
 
         WarpInScreen = true;
     }
@@ -42,7 +44,7 @@ public class Player : Actor
         // boost
         if (Controls.Boost.IntValue > 0)
         {
-            Velocity += Direction * boostSpeed * Time.Delta;
+            Velocity += Direction * BoostSpeed * Time.Delta;
         }
         
         // shoot
