@@ -10,6 +10,8 @@ public class Player : Actor
     private float size = 25f;
     private float rotationAngle;
     private float rotationSpeed = 3.5f;
+
+    private bool bIsThrusting = false;
     
     public Player()
     {
@@ -53,6 +55,9 @@ public class Player : Actor
             var bullet = World.Spawn<Bullet>(Position + Direction * 10);
             bullet.Setup(Direction);
         }
+        
+        // visual for thrusting the ship
+        bIsThrusting = Controls.Boost.IntValue > 0;
 
         // move the player with velocity (w/ inertia)
         Position += Velocity * Time.Delta;
@@ -61,12 +66,24 @@ public class Player : Actor
     public override void Render(Batcher batcher)
     {
         base.Render(batcher);
+
+        // ship
+        {
+            var anim = Sprite.GetAnimation("Idle");
+            var frame = Sprite.GetFrameAt(anim, 0, false);
+            
+            batcher.Image(frame.Subtexture, Position, new Vector2(16,16), Vector2.One, rotationAngle, Color.White);
+        }
+
+        // thrust
+        if (bIsThrusting)
+        {
+            var anim = Sprite.GetAnimation("Thrust");
+            
+            var frame = Sprite.GetFrameAt(anim, 0, false);
         
-        var anim = Sprite.GetAnimation("Idle");
-        var frame = Sprite.GetFrameAt(anim, 0, true);
-        
-        batcher.Image(frame.Subtexture, Position, new Vector2(16,16), Vector2.One, rotationAngle, Color.White);
-        
+            batcher.Image(frame.Subtexture, Position, new Vector2(16,16), Vector2.One, rotationAngle, Color.White);
+        }
         // hitbox.Render(batcher);
         
         // batcher.Triangle(new Triangle(new Vector2(0, 0), new Vector2(size, -2*size), new Vector2(size*2, 0)), Color.Red);

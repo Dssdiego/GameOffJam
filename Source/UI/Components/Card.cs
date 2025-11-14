@@ -13,16 +13,14 @@ public class Card : UI
 
     public PowerUp PowerUp;
 
-    private Sprite contentSprite;
-    private Sprite borderSprite;
+    private Sprite sprite;
     private State state = State.Normal;
 
     public Card(PowerUp powerUp)
     {
         PowerUp = powerUp;
         
-        contentSprite = AssetUtils.GetSprite("Card")!;
-        borderSprite = AssetUtils.GetSprite("CardBorder")!;
+        sprite = AssetUtils.GetSprite("Card")!;
     }
 
     public void SetState(State newState)
@@ -34,20 +32,20 @@ public class Card : UI
 
     public override void Render(Batcher batcher)
     {
-        // card content
+        // content
         {
-            var contentAnim = contentSprite.GetAnimation("Speed");
-            var contentFrame = contentSprite.GetFrameAt(contentAnim, 0, false);
+            var anim = sprite.GetAnimation("Speed");
+            var frame = sprite.GetFrameAt(anim, 0, false);
         
-            batcher.Image(contentFrame.Subtexture, Position, new Vector2(16,16), Vector2.One * Scale, 0, Color.White);
+            batcher.Image(frame.Subtexture, Position, new Vector2(16,16), Vector2.One * Scale, 0, Color.White);
         }
         
-        // card border
+        // border
         {
-            var borderAnim = borderSprite.GetAnimation(state == State.Normal ? "Normal" : "Selected");
-            var borderFrame = borderSprite.GetFrameAt(borderAnim, 0, false);
+            var anim = sprite.GetAnimation(state == State.Normal ? "Border" : "BorderSelected");
+            var frame = sprite.GetFrameAt(anim, 0, false);
         
-            batcher.Image(borderFrame.Subtexture, Position, new Vector2(16,16), Vector2.One * Scale, 0, Color.White);
+            batcher.Image(frame.Subtexture, Position, new Vector2(16,16), Vector2.One * Scale, 0, Color.White);
         }
         
         // texts
