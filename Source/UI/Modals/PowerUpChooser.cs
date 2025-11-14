@@ -15,7 +15,7 @@ public class PowerUpChooser : UI
     {
         Controls = controls;
 
-        var cardWithAction = new Card();
+        var cardWithAction = new Card("Speed", "+ 2");
         cardWithAction.Action = () =>
         {
             var player = Game.Instance.World.GetFirstActorWithMask(Actor.Masks.Player) as Player;
@@ -26,8 +26,8 @@ public class PowerUpChooser : UI
         };
         
         powerUpCards.Add(cardWithAction);
-        powerUpCards.Add(new Card());
-        powerUpCards.Add(new Card());
+        powerUpCards.Add(new Card("", ""));
+        powerUpCards.Add(new Card("", ""));
         
         UpdateSelection();
     }

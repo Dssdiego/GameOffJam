@@ -9,6 +9,8 @@ public class Card : UI
     }
 
     public Action Action = () => { };
+    public string Title;
+    public string Description;
     public Vector2 Position;
     public float Scale = 4f;
 
@@ -16,8 +18,11 @@ public class Card : UI
     private Sprite borderSprite;
     private State state = State.Normal;
 
-    public Card()
+    public Card(string title, string description)
     {
+        Title = title;
+        Description = description;
+        
         contentSprite = AssetUtils.GetSprite("Card")!;
         borderSprite = AssetUtils.GetSprite("CardBorder")!;
     }
@@ -49,5 +54,9 @@ public class Card : UI
         
             batcher.Image(borderFrame.Subtexture, Position, new Vector2(16,16), Vector2.One * Scale, 0, Color.White);
         }
+        
+        // texts
+        batcher.Text(Assets.SpriteFonts["Renogare"], Description, Position + new Vector2(-20, 15), Color.White);
+        batcher.Text(Assets.SpriteFonts["Renogare"], Title, Position + new Vector2(-40, 80), Color.White);
     }
 }
