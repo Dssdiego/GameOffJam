@@ -2,6 +2,9 @@ namespace GameOffJam;
 
 public class BulletBomber : Actor
 {
+    // Idea for visual: The ship of the bomber has two thrusters, the thruster are dynamites and the thrusting is the
+    //                  bomb about to explode (with the wick burning until the ship explodes) 
+    
     public int NumOfBullets = 25;
 
     private bool bExploded;
