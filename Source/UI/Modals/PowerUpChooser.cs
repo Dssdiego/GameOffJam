@@ -10,24 +10,27 @@ public class PowerUpChooser : UI
 
     private int offsetX = 200;
     private int selectedCardIdx;
+    
+    public List<(int, PowerUp)> Progression =
+    [
+        // wave 1
+        new ValueTuple<int, PowerUp>(1, new PowerUp( PowerUp.EType.BoostSpeed, 10)),
+        new ValueTuple<int, PowerUp>(1, new PowerUp( PowerUp.EType.BoostSpeed, 30)),
+        new ValueTuple<int, PowerUp>(1, new PowerUp( PowerUp.EType.BoostSpeed, 50)),
+        
+        // wave 2
+        new ValueTuple<int, PowerUp>(2, new PowerUp( PowerUp.EType.ShootSpeed, 45)),
+        new ValueTuple<int, PowerUp>(2, new PowerUp( PowerUp.EType.ShootSpeed, 25)),
+        new ValueTuple<int, PowerUp>(2, new PowerUp( PowerUp.EType.ShootSpeed, 15))
+    ];
 
     public PowerUpChooser(Controls controls)
     {
         Controls = controls;
 
-        var cardWithAction = new Card("Speed", "+ 2");
-        cardWithAction.Action = () =>
-        {
-            var player = Game.Instance.World.GetFirstActorWithMask(Actor.Masks.Player) as Player;
-            if (player != null)
-            {
-                player.BoostSpeed = 3500f;
-            }
-        };
-        
-        powerUpCards.Add(cardWithAction);
-        powerUpCards.Add(new Card("", ""));
-        powerUpCards.Add(new Card("", ""));
+        powerUpCards.Add(new Card(Progression[0].Item2));
+        powerUpCards.Add(new Card(Progression[1].Item2));
+        powerUpCards.Add(new Card(Progression[2].Item2));
         
         UpdateSelection();
     }
@@ -78,7 +81,7 @@ public class PowerUpChooser : UI
         if (Controls.MenuConfirm.ConsumePress())
         {
             // execute the action of the "power up" card
-            powerUpCards[selectedCardIdx].Action();
+            powerUpCards[selectedCardIdx].PowerUp.ApplyToPlayer();
             
             // make the game "run" again
             Game.ChangeState(Game.GameState.Running);
