@@ -9,7 +9,7 @@ public class PowerUpChooser : UI
     private Vector2 basePosition = new(200, 200);
 
     private int offsetX = 200;
-    private int selectedCardIdx = 0;
+    private int selectedCardIdx;
 
     public PowerUpChooser(Controls controls)
     {
