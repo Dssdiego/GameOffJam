@@ -76,7 +76,9 @@ public class Game : App
 
         var player = World.Spawn<Player>(new Vector2(300, 150));
 
-        var enemyMine = World.Spawn<Mine>(new Vector2(450, 50));
+        // var enemyMine = World.Spawn<Mine>(new Vector2(450, 50));
+
+        var bulletBomber = World.Spawn<BulletBomber>(new Vector2(450, 150));
 
         HUD.Init(World, Window);
     }
