@@ -6,8 +6,6 @@ public class World : Scene
     
     public LDTKMap LDTKMap;
 
-    public int Turn = 0;
-    
     private string lastLevelLoadedName = "";
     
     private Time Time => Game.Instance.Time;

@@ -26,9 +26,11 @@ public class Game : App
     private readonly HUD gameHUD = new();
     
     public static GameState State = GameState.Running;
-    
+
     private PauseMenu pauseMenu;
     private PowerUpChooser powerUpChooser;
+    
+    private Starfield starfield;
     
     public static bool ShowHitboxes = true;
     public static float Scale = 1f;
@@ -64,8 +66,10 @@ public class Game : App
 
         Assets.Init(GraphicsDevice);
 
-        World = new World("Puzzles");
-        World.Load("Test");
+        World = new World("");
+        World.Load("");
+
+        starfield = new Starfield();
 
         pauseMenu = new PauseMenu(World);
         powerUpChooser = new PowerUpChooser(Controls);
@@ -110,6 +114,8 @@ public class Game : App
         {
             Steam.Update();
             
+            starfield.Update();
+            
             // GameState.Update();
             World.Update();
 
@@ -121,6 +127,8 @@ public class Game : App
     {
         Window.Clear(Color.Black);
 
+        starfield.Render(batcher);
+        
         World.Render(batcher);
        
         gameHUD.Render(batcher);
